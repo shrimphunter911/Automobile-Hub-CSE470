@@ -1,0 +1,11 @@
+.SignIn_image {
+    background-image: url(https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/2023-range-rover-sport-107-1652153916.jpg?crop=1xw:1xh;center,top&resize=980:*);
+    height: 64vh;
+    background-size: cover;
+}
+
+@media screen and (max-width: 1024) {
+    .SignIn_image{
+        display: none;
+    }
+}
