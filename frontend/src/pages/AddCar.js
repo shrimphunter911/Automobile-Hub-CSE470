@@ -11,10 +11,10 @@ function AddCar() {
     const [specs, setSpecs] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState("");
-    const [images, setImages] = useState([]);
+    const [pictures, setImages] = useState([]);
     const [imgToRemove, setImgToRemove] = useState(null);
     const navigate = useNavigate();
-    const [createProduct, { isError, error, isLoading, isSuccess }] = useAddCarMutation();
+    const [createCar, { isError, error, isLoading, isSuccess }] = useAddCarMutation();
 
     function handleRemoveImg(imgObj) {
         setImgToRemove(imgObj.public_id);
@@ -29,10 +29,10 @@ function AddCar() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (!model || !details || !specs || !price || !category || !images.length) {
+        if (!model || !details || !specs || !price || !category || !pictures.length) {
             return alert("Please fill out all the fields");
         }
-        createProduct({ model, details, specs, price, category, images }).then(({ data }) => {
+        createCar({ model, details, specs, price, category, pictures }).then(({ data }) => {
             if (data.length > 0) {
                 setTimeout(() => {
                     navigate("/");
@@ -60,7 +60,7 @@ function AddCar() {
         <Container>
                 <Col md={5}>
                             <div className="images-preview-container">
-                                {images.map((image) => (
+                                {pictures.map((image) => (
                                     <div className="image-preview">
                                         <img src={image.url} />
                                         {imgToRemove != image.public_id && <i className="fa fa-times-circle" onClick={() => handleRemoveImg(image)}></i>}
@@ -71,7 +71,7 @@ function AddCar() {
                 <Col md={5} className="new-product__form--container">
                     <Form onSubmit={handleSubmit}>
                         <h1 className="mt-3">Add your car for sale</h1>
-                        {isSuccess && <Alert variant="success">Product created with succcess</Alert>}
+                        {isSuccess && <Alert variant="success">Car created with succcess</Alert>}
                         {isError && <Alert variant="danger">{error.data}</Alert>}
                         <Form.Group className="mb-3">
                             <Form.Label>Car Model</Form.Label>
@@ -112,7 +112,7 @@ function AddCar() {
 
                         <Form.Group>
                             <Button type="submit" disabled={isLoading || isSuccess}>
-                                Create Product
+                                Create Car
                             </Button>
                         </Form.Group>
                     </Form>

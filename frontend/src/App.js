@@ -7,6 +7,7 @@ import FrontPage from './pages/FrontPage';
 import SignIn from './pages/SignIn';
 import CreateAccount from './pages/CreateAccount';
 import AddCar from './pages/AddCar';
+import CarPage from './pages/CarPage';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/CreateAccount" element={<CreateAccount/>}/>
             <Route path="*" element={<FrontPage/>}/>
             <Route path="/AddCar" element={<AddCar/>}/>
+            <Route path="/cars/:id" element={<CarPage/>}/>
           </Routes>
       </BrowserRouter>
     </div>
