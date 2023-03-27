@@ -21,7 +21,7 @@ function App() {
             <Route path="/CreateAccount" element={<CreateAccount/>}/>
             <Route path="*" element={<FrontPage/>}/>
             <Route path="/AddCar" element={<AddCar/>}/>
-            <Route path="/cars/:id" element={<CarPage/>}/>
+            <Route path="/car/:id" element={<CarPage/>}/>
           </Routes>
       </BrowserRouter>
     </div>

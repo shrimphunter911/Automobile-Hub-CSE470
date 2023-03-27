@@ -1,35 +1,40 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../axios';
 import AliceCarousel from 'react-alice-carousel';
-import {Container, Row, Col, Badge} from 'react-bootstrap';
+import "react-alice-carousel/lib/alice-carousel.css";
+import {Container, Row, Col, Badge, ButtonGroup, Form, Button} from 'react-bootstrap';
 import {useSelector} from 'react-redux';
-import {useParams} from 'react-router-dom';
+import {useParams, Link} from 'react-router-dom';
 import Load from '../components/Load';
-import SameBody from '../components/SameBody';
+import PreviewCar from '../components/PreviewCar';
 
 function CarPage() {
     const {id} = useParams();
     const user = useSelector(state => state.user);
     const [car, setCar] = useState(null);
-    const [same, setSame] = useState(null);
+    const [similar, setSimilar] = useState(null);
     const handleDragStart = (e) => e.preventDefault();
     useEffect(()=> {
         axios.get(`/cars/${id}`).then(({data}) => {
             setCar(data.car);
-            setSame(data.same)
+            setSimilar(data.similar)
         })
     }, [id])
     if(!car){
         return <Load/>
     }
-    const images = car.pictures.map((picture) => <img className='product__carousel--image' src={'picture.url'} onDragStart={handleDragStart}/>)
+    const responsive = {
+        100: { items: 1 },
+        300: { items: 2 }
+    };
+    const images = car.pictures.map((picture) => <img className="product__carousel--image" src={picture.url} onDragStart={handleDragStart} />);
 
 
     let sameCar = [];
-    if(same){
-        sameCar = same.map((car, idx) => (
+    if(similar){
+        sameCar = similar.map((car, idx) => (
             <div className='item' data-value={idx}>
-                <SameBody {...car}/>
+                <PreviewCar {...car}/>
             </div>
         ))
     }
@@ -37,19 +42,24 @@ function CarPage() {
   return (
     <Container className='pt-4' style={{position: 'relative'}}>
         <Row>
-            <Col lg={6}>
-                <AliceCarousel mouseTracking items={images} controlsStrategy="alternative"/>
-            </Col>
-            <Col>
-                <h1>car.name</h1>
-                <p>
-                    <Badge bg="primary">{car.category}</Badge>
-                </p>
-                <p className="product__price">${car.price}</p>
-                <p style={{ textAlign: "justify" }} className="py-3">
-                    <strong>Description:</strong> {car.description}
-                </p>
-            </Col>
+        <AliceCarousel mouseTracking items={images} controlsStrategy="alternative"/>
+        </Row>
+        <Row>
+        <h1>{car.model}</h1>
+        <p>
+            <Badge bg="primary">{car.category}</Badge>
+        </p>
+        <p className="car_price">৳{car.price}</p>
+        <p style={{ textAlign: "justify" }} className="py-3">
+            <strong>Details:</strong> {car.details}
+        </p>
+        <p style={{ textAlign: "justify" }} className="py-3">
+            <strong>Specs:</strong> {car.specs}
+        </p>
+        </Row>
+        <Row>
+            <h2>Similar Bodytype</h2>
+            <AliceCarousel mouseTracking items={sameCar} responsive={responsive} controlsStrategy="alternate" />
         </Row>
     </Container>
   )
