@@ -19,7 +19,14 @@ const UserSchema = Schema({
     admin: {
         type: Boolean,
         default: false
-    }
+    },
+    cart: {
+        type: Object,
+        default: {
+          total: 0,
+          count: 0
+        }
+    },
 }, {minimize: false});
 
 UserSchema.statics.credentials = async function(email, pass) {

@@ -2,33 +2,54 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from "react-redux";
 import "./NavigBar.css";
+import { LinkContainer } from "react-router-bootstrap";
+import {logout} from "../features/userSlice";
 
 function NavigBar() {
+  function handleLogout() {
+    dispatch(logout());
+  }
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   return (
     <Navbar bg="dark" expand="lg">
       <Container>
         <Navbar.Brand href="/FrontPage" style={{color: 'white', textDecoration: 'none'}}>Automobile Hub</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+        {user && (
+          <>
           <Nav className="me-auto">
           <Nav.Link href="/AddCar" style={{color: 'white', textDecoration: 'none'}} activeStyle={{color: 'red', textDecoration: 'none'}}>Add Car For Sale</Nav.Link>
+          <Nav.Link href="/add-request" style={{color: 'white', textDecoration: 'none'}} activeStyle={{color: 'red', textDecoration: 'none'}}>Add request</Nav.Link>
+          <Nav.Link href="/requests" style={{color: 'white', textDecoration: 'none'}} activeStyle={{color: 'red', textDecoration: 'none'}}>Requests</Nav.Link>
           </Nav>
+          <Nav className="ms-auto">
+          <LinkContainer to="/cart" style={{color: 'white'}}>
+                                <Nav.Link>
+                                    <i className="fas fa-shopping-cart"></i>
+                                    {user?.cart.count > 0 && (
+                                        <span className="badge badge-warning" id="cartcount">
+                                            {user.cart.count}
+                                        </span>
+                                    )}
+                                </Nav.Link>
+          </LinkContainer>
+          <Button variant="danger" onClick={handleLogout} className="logout-btn">
+                                        Logout
+          </Button>
+          </Nav>
+          </>
+        )}
+        {!user && (
           <Nav className="ms-auto">
           <Nav.Link href="/CreateAccount" style={{color: 'white', textDecoration: 'none'}} activeStyle={{color: 'red', textDecoration: 'none'}}>Create Account</Nav.Link>
           <Nav.Link href="/SignIn" style={{color: 'white', textDecoration: 'none'}} activeStyle={{color: 'red', textDecoration: 'none'}}>Sign in</Nav.Link>
-            {/* <NavDropdown title="" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown> */}
           </Nav>
+        )}
         </Navbar.Collapse>
       </Container>
     </Navbar>

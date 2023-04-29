@@ -7,12 +7,14 @@ import {useSelector} from 'react-redux';
 import {useParams, Link} from 'react-router-dom';
 import Load from '../components/Load';
 import PreviewCar from '../components/PreviewCar';
+import { useAddToCartMutation } from '../services/appApi';
 
 function CarPage() {
     const {id} = useParams();
     const user = useSelector(state => state.user);
     const [car, setCar] = useState(null);
     const [similar, setSimilar] = useState(null);
+    const [addToCart, { isSuccess }] = useAddToCartMutation();
     const handleDragStart = (e) => e.preventDefault();
     useEffect(()=> {
         axios.get(`/cars/${id}`).then(({data}) => {
@@ -56,6 +58,10 @@ function CarPage() {
         <p style={{ textAlign: "justify" }} className="py-3">
             <strong>Specs:</strong> {car.specs}
         </p>
+        <Button size="lg" onClick={() => addToCart({ userId: user._id, carId: id, price: car.price, image: car.pictures[0].url })}>
+                                Add to cart
+        </Button>
+        {isSuccess}
         </Row>
         <Row>
             <h2>Similar Bodytype</h2>

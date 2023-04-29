@@ -44,6 +44,31 @@ export const appApi = createApi({
                 method: "PATCH",
             }),
         }),
+
+        // add to cart
+        addToCart: builder.mutation({
+            query: (cartInfo) => ({
+                url: "/cars/add-to-cart",
+                body: cartInfo,
+                method: "POST",
+            }),
+        }),
+        // remove from cart
+        removeFromCart: builder.mutation({
+            query: (body) => ({
+                url: "/cars/remove-from-cart",
+                body,
+                method: "POST",
+            }),
+        }),
+
+        createOrder: builder.mutation({
+            query: (body) => ({
+                url: "/orders",
+                method: "POST",
+                body,
+            }),
+        }),
     }),
 });
 
@@ -53,6 +78,9 @@ export const {
     useAddCarMutation,
     useRemoveCarMutation,
     useUpdateCarMutation,
+    useAddToCartMutation,
+    useRemoveFromCartMutation,
+    useCreateOrderMutation
 } = appApi;
 
 export default appApi;

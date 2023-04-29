@@ -3,6 +3,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCars } from "../features/carSlice";
 import PreviewCar from "../components/PreviewCar";
+import BodyTypes from "../BodyTypes";
+import { Col, Row, } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+import './FrontPage.css';
 
 function FrontPage() {
     const dispatch = useDispatch();
@@ -21,8 +25,21 @@ function FrontPage() {
                         <PreviewCar {...car} />
                     ))}
                 </div>
+                <h2>Body Types</h2>
+                <Row>
+                    {BodyTypes.map((category) => (
+                        <LinkContainer to={`/category/${category.name}`}>
+                            <Col md={4}>
+                                <div style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${category.img})`, gap: "10px" }} className="category-tile">
+                                    {category.name}
+                                </div>
+                            </Col>
+                        </LinkContainer>
+                    ))}
+                </Row>
             </div>
         </div>
+        
     );
 }
 
